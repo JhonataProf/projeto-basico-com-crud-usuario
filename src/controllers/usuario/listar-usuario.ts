@@ -1,32 +1,32 @@
 import { Controller, HttpRequest, HttpResponse } from '../../interfaces';
 import User from '../../models/user-model';
 
-class ListarUsuarioController implements Controller {
+class ListarPratoController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const userId = httpRequest.params.id;
-      const usuario = await User.findByPk(userId);
-      if (!usuario && userId !== '{id}' && userId !== undefined) {
+      const Prato = await User.findByPk(userId);
+      if (!Prato && userId !== '{id}' && userId !== undefined) {
         return {
           statusCode: 404,
-          body: { error: 'Usuário não encontrado' },
+          body: { error: 'Prato não encontrado' },
         };
       } else if (userId !== '{id}' && userId !== undefined) {
         return {
           statusCode: 200,
-          body: usuario,
+          body: Prato,
         };
       }
-      const usuarios = await User.findAll();
-      if (usuarios.length === 0) {
+      const pratos = await User.findAll();
+      if (pratos.length === 0) {
         return {
           statusCode: 404,
-          body: { error: 'Nenhum usuário encontrado' },
+          body: { error: 'Nenhum prato encontrado' },
         };
       }
       return {
         statusCode: 200,
-        body: usuarios,
+        body: pratos,
       };
     } catch (error: any) {
       return {
@@ -37,4 +37,4 @@ class ListarUsuarioController implements Controller {
   }
 }
 
-export default ListarUsuarioController;
+export default ListarPratoController;
