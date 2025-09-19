@@ -258,7 +258,7 @@ paths:
       security: [ { bearerAuth: [] } ]
       tags: [Pedidos]
       responses:
-        '200':
+        200:
           description: Lista de pedidos
           content:
             application/json:
@@ -266,8 +266,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pedido'
-        '401': { description: Token inválido ou ausente }
-        '403': { description: Sem permissão }
+        401: { description: Token inválido ou ausente }
+        403: { description: Sem permissão }
     post:
       summary: Cria um pedido
       security: [ { bearerAuth: [] } ]
@@ -278,16 +278,16 @@ paths:
           application/json:
             schema: { $ref: '#/components/schemas/CreatePedido' }
             example:
-              usuarioId: "u-123"
+              usuarioId: 1
               itens:
-                - produtoId: "p-1"
+                - produtoId: 1
                   quantidade: 2
                   precoUnitario: 10
       responses:
-        '201': { description: Criado }
-        '400': { description: Erro de validação }
-        '401': { description: Token inválido ou ausente }
-        '403': { description: Sem permissão }
+        201: { description: Criado }
+        400: { description: Erro de validação }
+        401: { description: Token inválido ou ausente }
+        403: { description: Sem permissão }
   /pedidos/{id}:
     get:
       summary: Busca pedido por ID
@@ -297,13 +297,13 @@ paths:
         - in: path
           name: id
           required: true
-          schema: { type: string }
-          example: "ped-001"
+          schema: { type: integer }
+          example: 1
       responses:
-        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Pedido' } } } }
-        '401': { description: Token inválido ou ausente }
-        '403': { description: Sem permissão }
-        '404': { description: Não encontrado }
+        200: { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Pedido' } } } }
+        401: { description: Token inválido ou ausente }
+        403: { description: Sem permissão }
+        404: { description: Não encontrado }
     put:
       summary: Atualiza pedido
       security: [ { bearerAuth: [] } ]
@@ -312,8 +312,8 @@ paths:
         - in: path
           name: id
           required: true
-          schema: { type: string }
-          example: "ped-001"
+          schema: { type: integer }
+          example: 1
       requestBody:
         required: true
         content:
@@ -322,11 +322,11 @@ paths:
             example:
               status: "PAGO"
       responses:
-        '200': { description: OK }
-        '400': { description: Erro de validação }
-        '401': { description: Token inválido ou ausente }
-        '403': { description: Sem permissão }
-        '404': { description: Não encontrado }
+        200: { description: OK }
+        400: { description: Erro de validação }
+        401: { description: Token inválido ou ausente }
+        403: { description: Sem permissão }
+        404: { description: Não encontrado }
     delete:
       summary: Remove pedido
       security: [ { bearerAuth: [] } ]
@@ -335,13 +335,13 @@ paths:
         - in: path
           name: id
           required: true
-          schema: { type: string }
-          example: "ped-001"
+          schema: { type: integer }
+          example: 1
       responses:
-        '204': { description: Sem conteúdo }
-        '401': { description: Token inválido ou ausente }
-        '403': { description: Sem permissão }
-        '404': { description: Não encontrado }
+        204: { description: Sem conteúdo }
+        401: { description: Token inválido ou ausente }
+        403: { description: Sem permissão }
+        404: { description: Não encontrado }
 
 
 components:
@@ -421,15 +421,15 @@ components:
   PedidoItem:
     type: object
     properties:
-      produtoId: { type: string, example: "p-123" }
+      produtoId: { type: integer, example: 1 }
       quantidade: { type: integer, minimum: 1, example: 2 }
       precoUnitario: { type: number, minimum: 0, example: 10.5 }
     required: [produtoId, quantidade, precoUnitario]
   Pedido:
     type: object
     properties:
-      id: { type: string, example: "ped-001" }
-      usuarioId: { type: string, example: "u-123" }
+      id: { type: integer, example: 1 }
+      usuarioId: { type: string, example: 1 }
       itens:
         type: array
         items: { $ref: '#/components/schemas/PedidoItem' }
@@ -440,7 +440,7 @@ components:
   CreatePedido:
     type: object
     properties:
-      usuarioId: { type: string, example: "u-123" }
+      usuarioId: { type: integer, example: 1 }
       itens:
         type: array
         items: { $ref: '#/components/schemas/PedidoItem' }
