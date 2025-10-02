@@ -15,6 +15,8 @@ export class CriarPratoController implements Controller {
                 imagem,
                 valor
             };
+
+            console.log(imagem)
     
             await Prato.create(novoPrato);
 

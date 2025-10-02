@@ -419,22 +419,35 @@ components:
         - nome
         - descricao
         - preco
+        - cozinha
       properties:
         nome:
           type: string
           description: O nome do prato
-        descricao:
+        cozinha:
+          type: string
+          description: Cozinha onde o prato foi inventado
+        descricao_resumida:
           type: string
           description: A descrição do prato
-        preco:
+        descricao_detalhada:
+          type: string
+          description: A descrição detalhada do prato
+        imagem:
+          type: string
+          description: url da imagam que sera adicionada na capa do prato
+        valor:
           type: number
           format: float
           description: O preço do prato
+        
       example:
         id: 1
         nome: "Lasanha"
-        descricao: "Lasanha à bolonhesa com queijo gratinado"
-        preco: 29.90
+        cozinha: "brasileira"
+        descricao_resumida: "Lasanha feita com muito amor"
+        descricao_detalhada: "Lasanha à bolonhesa com queijo gratinado"
+        valor: 29.90
     Login:
       type: object
       required:
