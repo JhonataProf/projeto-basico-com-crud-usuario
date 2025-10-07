@@ -327,8 +327,6 @@ paths:
         - in: path
           name: id
           required: true
-          schema: 
-            type: integer
           example: 1
       requestBody:
         required: true
@@ -374,7 +372,6 @@ paths:
           description: Sem permissão
         404:
           description: Não encontrado
-
 
 components:
   securitySchemes:
