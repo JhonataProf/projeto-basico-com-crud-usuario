@@ -1,12 +1,11 @@
 import { Router } from "express";
 import adaptRoute from "../adapters/express-route-adapter";
 import DeletarPratoController from "../controllers/prato/deletar-prato";
-import { authMiddleware } from "../middlewares";
-import authorizeRoles from "../middlewares/authorize-roles";
+import { authMiddleware, authorizeRoles } from "../middlewares";
 
 export default (router: Router): void => {
-  router.delete("/pratos/:id", 
+  router.delete("/pratos/:id",
     authMiddleware,
-    authorizeRoles(['Gerente']),
+    authorizeRoles(['Gerente', 'Funcionario']),
     adaptRoute(new DeletarPratoController()));
 };
