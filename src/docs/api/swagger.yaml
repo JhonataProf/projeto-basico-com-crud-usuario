@@ -248,7 +248,7 @@ paths:
           description: Token inválido ou expirado
         500:
           description: Algum erro aconteceu
-  /pedidos:
+        /pedidos:
     get:
       summary: Lista todos os pedidos
       security: 

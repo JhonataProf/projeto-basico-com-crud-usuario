@@ -6,6 +6,9 @@ import Funcionario from "../models/funcionario-model";
 import Gerente from "../models/gerente-model";
 import User from "../models/user-model";
 import bcrypt from "bcrypt";
+import type { CreateUserDTO } from "../schemas";
+
+export type ResponseCreateUserDto = Partial<CreateUserDTO> & { id: number };
 
 export class UsuarioService {
   async deletarUsuario(id: number): Promise<boolean> {
@@ -60,19 +63,26 @@ export class UsuarioService {
     return userAtualizado.toJSON();
   }
 
-  async criarUsuario(dadosUsuario: any): Promise<any> {
-    const { nome, email, senha, role } = dadosUsuario;
+  async criarUsuario(
+    dadosUsuario: CreateUserDTO
+  ): Promise<ResponseCreateUserDto> {
+    const { username, email, senha, role } = dadosUsuario;
     const senhaCriptografada = await bcrypt.hash(senha, ENV.SALT);
 
     const usuario = await User.create({
-      nome,
+      username,
       email,
       senha: senhaCriptografada,
       role,
     });
 
     await this.__criarPerfil({ userId: usuario.id, role, nome });
-    return dadosUsuario;
+    return {
+      id: usuario.id,
+      username: usuario.nome,
+      email: usuario.email,
+      role: usuario.role,
+    };
   }
 
   async __buscarPerfilPorUserId(userId: number) {
