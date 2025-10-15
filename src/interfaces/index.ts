@@ -1,17 +1,4 @@
-import {StatusPedido} from '../enums/status-pedido';
-
-export interface PedidoItemDTO {
-  produtoId: string;
-  quantidade: number;
-  precoUnitario: number;
-}
-
-export interface CreatePedidoDTO {
-  usuarioId: string;
-  itens: PedidoItemDTO[];
-}
-
-export interface UpdatePedidoDTO {
-  itens?: PedidoItemDTO[];
-  status?: StatusPedido;
+export interface Encrypter {
+  hash(value: string): Promise<string>;
+  compare(value: string, hash: string): Promise<boolean>;
 }
