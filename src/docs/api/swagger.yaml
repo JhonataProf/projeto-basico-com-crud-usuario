@@ -33,8 +33,30 @@ paths:
       responses:
         201:
           description: O usuário foi criado com sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseFromApi'
+        400:
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Todos os dados são obrigatórios"
         500:
           description: Algum erro aconteceu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro no servidor"
   /api/users/{id}:
     get:
       summary: Retorna um usuário pelo ID
@@ -57,8 +79,24 @@ paths:
                 $ref: '#/components/schemas/User'
         404:
           description: Usuário não encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Nenhum usuário encontrado"
         500:
           description: Algum erro aconteceu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro no servidor"
     put:
       summary: Atualiza um usuário pelo ID
       tags: [Users]
@@ -80,10 +118,30 @@ paths:
       responses:
         200:
           description: O usuário foi atualizado com sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponseFromApi'
         404:
           description: Usuário não encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Nenhum usuário encontrado"
         500:
           description: Algum erro aconteceu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro interno do servidor : erro"
     delete:
       summary: Deleta um usuário pelo ID
       tags: [Users]
@@ -97,12 +155,36 @@ paths:
           required: true
           description: O ID do usuário
       responses:
-        200:
+        204:
           description: O usuário foi deletado com sucesso!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuário deletado com sucesso"
         404:
           description: Usuário não encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Nenhum usuário encontrado"
         500:
           description: Algum erro aconteceu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro interno do servidor : erro"
   /api/pratos:
     post:
       summary: Cria um novo prato
@@ -118,8 +200,20 @@ paths:
       responses:
         201:
           description: O prato foi criado com sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prato'
         500:
           description: Algum erro aconteceu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro no servidor"
     get:
       summary: Retorna todos os pratos
       tags: [Pratos]
@@ -136,6 +230,14 @@ paths:
                   $ref: '#/components/schemas/Prato'
         500:
           description: Algum erro aconteceu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro no servidor"
   /api/pratos/{id}:
     get:
       summary: Retorna um prato pelo ID
@@ -158,8 +260,24 @@ paths:
                 $ref: '#/components/schemas/Prato'
         404:
           description: Prato não encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Prato não encontrado"
         500:
           description: Algum erro aconteceu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro no servidor"
     put:
       summary: Atualiza um prato pelo ID
       tags: [Pratos]
@@ -181,10 +299,30 @@ paths:
       responses:
         200:
           description: O prato foi atualizado com sucesso!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prato'
         404:
           description: Prato não encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Prato não encontrado"
         500:
           description: Algum erro aconteceu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro interno do servidor : erro"
     delete:
       summary: Deleta um prato pelo ID
       tags: [Pratos]
@@ -200,10 +338,34 @@ paths:
       responses:
         200:
           description: O prato foi deletado com sucesso!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Prato deletado com sucesso"
         404:
           description: Prato não encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Prato não encontrado"
         500:
           description: Algum erro aconteceu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro interno do servidor : erro"
   /api/login:
     post:
       summary: Autentica um usuário e retorna um token JWT
@@ -221,10 +383,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RefreshToken'
+        400:
+          description: Erro quando o e-mail ja esta cadastrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Email já cadastrado"
         401:
           description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Credenciais inválidas"
         500:
           description: Algum erro aconteceu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro no servidor"
   /api/refresh-token:
     post:
       summary: Gera um novo token JWT
@@ -244,10 +432,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RefreshToken'
-        401:
+        400:
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Refresh token é obrigatório"
+        403:
           description: Token inválido ou expirado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Refresh token inválido"
         500:
           description: Algum erro aconteceu
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Erro interno do servidor : erro"
   /pedidos:
     get:
       summary: Lista todos os pedidos
@@ -409,6 +623,25 @@ components:
         senha: "123abc"
         email: "joao.silva@dominio.com"
         role: "Gerente"
+    UserResponseFromApi:
+      properties:
+        id:
+          type: integer
+          description: ID do usuário
+        nome:
+          type: string
+          description: O nome de usuário
+        email:
+          type: string
+          description: O email do usuário
+        role:
+          type: string
+          description: O papel do usuário no sistema
+      example:
+        id: 1
+        nome: "João da Silva"
+        email: "joao.silva@dominio.com"
+        role: "Gerente"
     Prato:
       type: object
       required:
@@ -452,6 +685,18 @@ components:
       example:
         email: "joao.silva@dominio.com"
         senha: "123abc"
+    ResponseLogin:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+      description: Token JWT para autenticação
+      example: 
+        mensage: "Autenticação bem-sucedida"
+        accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2FvLnNpbHZhQGRvbWluaW8uY29tIiwicm9sZSI6IkdlcmVudGUiLCJpYXQiOjE3NTg2NzUyNTcsImV4cCI6MTc1ODY3NjE1N30.9wHmaympHnxyNtZxfEyEtrxXSRlUWpNlwDSqlDfKoMQ"
+        refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2FvLnNpbHZhQGRvbWluaW8uY29tIiwicm9sZSI6IkdlcmVudGUiLCJpYXQiOjE3NTg2NzUyNTcsImV4cCI6MTc1ODY3NjE1N30.9wHmaympHnxyNtZxfEyEtrxXSRlUWpNlwDSqlDfKoMQ"
     RefreshToken:
       type: object
       properties:
