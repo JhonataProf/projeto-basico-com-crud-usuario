@@ -1,41 +1,46 @@
-import { notFound, ok, serverError, unAuthorized } from '../../helpers/http-helper';
-import { Controller, HttpRequest, HttpResponse } from '../../protocols';
-import { LoginService } from '../../service/login-service';
-import { LoginDTO } from '../../types';
-import { ENV } from '../../config/env';
-import { BcryptAdapter } from '../../adapters/bcrypt-adapter';
-import { TokenAdapter } from '../../adapters/token-adapter';
+import { BcryptAdapter } from "../../adapters/bcrypt-adapter";
+import { TokenAdapter } from "../../adapters/token-adapter";
+import { ENV } from "../../config/env";
+import { unAuthorizedError } from "../../errors/unauthorized-error";
+import {
+  notFound,
+  ok,
+  serverError,
+  unAuthorized,
+} from "../../helpers/http-helper";
+import { Controller, HttpRequest, HttpResponse } from "../../protocols";
+import { LoginService } from "../../service/login-service";
+import { LoginDTO } from "../../types";
 
 export class LoginController implements Controller {
+  private readonly loginService: LoginService;
+
+  public constructor(loginService: LoginService) {
+    this.loginService = loginService;
+  }
+
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { email, senha }: LoginDTO = httpRequest.body;
-
-      const encrypter = new BcryptAdapter(ENV.SALT || 10);
-      const tokenizer = new TokenAdapter();
-      const loginService = new LoginService(encrypter, tokenizer);
-
-      const response = await loginService.login({ email, senha });
-
+      const response = await this.loginService.login({ email, senha });
       if (!response) {
-        return unAuthorized({ message: 'Credenciais inválidas' });
+        return unAuthorized(new unAuthorizedError());
       }
-
-      const perfil = await loginService.buscarPerfilPorUserId(response);
+      const perfil = await this.loginService.buscarPerfilPorUserId(response);
       if (!perfil) {
-        return notFound({ message: 'Usuário não encontrado, verificar cadastro.' })
+        return notFound({
+          message: "Usuário não encontrado, verificar cadastro.",
+        });
       }
       const user = perfil.user;
-
-      const { token, refreshToken } = loginService.gerarTokens(user);
-
+      const { token, refreshToken } = this.loginService.gerarTokens(user);
       return ok({
-        message: 'Login realizado com sucesso',
+        message: "Login realizado com sucesso",
         token,
         refreshToken,
-      })
+      });
     } catch (error) {
-      return serverError(error)
+      return serverError(error);
     }
   }
 }

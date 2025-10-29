@@ -1,16 +1,13 @@
 import sequelize from "../database";
 import { Role } from "../enums/role";
+import { Encrypter } from "../interfaces";
 import Cliente from "../models/cliente-model";
 import Funcionario from "../models/funcionario-model";
 import Gerente from "../models/gerente-model";
 import User from "../models/user-model";
 import { CreateUserDTO, ResponseCreateUserDto } from "../types";
-import { Encrypter } from "../interfaces";
-
-
 
 export class UsuarioService {
-
   private readonly encrypter: Encrypter;
   public constructor(encrypter: Encrypter) {
     this.encrypter = encrypter;
@@ -33,11 +30,11 @@ export class UsuarioService {
   }
 
   async buscarUsuarioPorId(id: number): Promise<User | null> {
-    return (await User.findByPk(id))?.toJSON();
+    return await User.findByPk(id);
   }
 
   async buscarPorEmail(email: string): Promise<User | null> {
-    return (await User.findOne({ where: { email } }))?.toJSON();
+    return await User.findOne({ where: { email } });
   }
 
   async buscaTodosUsuarios(): Promise<User[]> {
@@ -53,7 +50,7 @@ export class UsuarioService {
     if (!user) {
       return null;
     }
-    const senhaCriptografada = await this.encrypter.hash(senha);
+    const senhaCriptografada = senha ? await this.encrypter.hash(senha): user.senha;
     newUser.nome = nome || newUser.nome;
     newUser.email = email || newUser.email;
     newUser.senha = senha ? senhaCriptografada : newUser.senha;

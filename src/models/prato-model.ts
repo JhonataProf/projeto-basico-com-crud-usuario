@@ -1,5 +1,5 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from '../database';
+import { DataTypes, Model } from "sequelize";
+import sequelize from "../database";
 
 export class Prato extends Model {
   id!: number;
@@ -7,7 +7,7 @@ export class Prato extends Model {
   cozinha!: string;
   descricao_resumida!: string;
   descricao_detalhada!: string;
-  imagem: string;
+  imagem!: string;
   valor!: number;
 }
 
@@ -41,11 +41,11 @@ Prato.init(
     valor: {
       type: DataTypes.FLOAT,
       allowNull: false,
-    }
+    },
   },
   {
     sequelize,
-    modelName: 'Prato',
+    modelName: "Prato",
   }
 );
 
